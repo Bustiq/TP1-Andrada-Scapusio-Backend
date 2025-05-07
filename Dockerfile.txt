@@ -1,0 +1,30 @@
+FROM node:alpine AS mediebuilder
+ 
+WORKDIR /app
+ 
+COPY package.json package-lock.json ./
+ 
+RUN npm install
+RUN npm i typescript ts-node --save-dev
+RUN npm install -g typescript
+RUN npm install express
+RUN npm i -D @types/express @types/node
+RUN npm install sequelize-typescript
+RUN npm install cors
+ 
+COPY . .
+ 
+RUN npx tsc
+ 
+FROM node:alpine AS medierunner
+ 
+WORKDIR /app
+ 
+COPY --from=mediebuilder /app/dist ./dist
+COPY --from=mediebuilder /app/node_modules ./node_modules
+
+RUN npm install --only=production
+ 
+EXPOSE 3000
+ 
+CMD ["node", "dist/main.js"]
