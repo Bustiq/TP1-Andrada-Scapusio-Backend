@@ -1,3 +1,4 @@
+
 import ModeloUsuario from '../models/ModeloUsuario';
 import { createHash } from 'crypto';
 import jwt, { JwtPayload } from 'jsonwebtoken'
@@ -6,7 +7,9 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 
 export  class controllerUsuario{
     
+
     static secretKey = "Medieburger"
+
 
     static hashSHA256(data: string): string {
 
@@ -76,6 +79,7 @@ export  class controllerUsuario{
         else{
             throw new Error("Usuario no encontrado")
         }
+
     }
 
 
@@ -110,6 +114,7 @@ export  class controllerUsuario{
     {
         return await ModeloUsuario.findAll()
     }
+
 
 }
 

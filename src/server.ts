@@ -1,6 +1,8 @@
 import app from './main';
 import sequelize from './config/database';
+
 import './models/ModeloProducto';
+
 
 const PORT = 3001;
 

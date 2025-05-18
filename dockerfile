@@ -13,7 +13,7 @@ FROM node:alpine AS produccion
 WORKDIR /app
 
 COPY --from=builder /app/package*.json ./
-COPY --from=builder . .
+
 
 RUN npm install
 

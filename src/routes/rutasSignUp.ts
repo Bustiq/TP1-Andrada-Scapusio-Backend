@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import { Sequelize, DataTypes } from 'sequelize';
 
 
+
 export let signUpRouter = express.Router()
 
     
@@ -34,5 +35,6 @@ import { controllerUsuario } from '../controllers/controllerUsuario';
         console.log("devolviendo?")
         console.log(controllerUsuario.GetUsuarios())
         res.json(await controllerUsuario.GetUsuarios())
+
     });
 

@@ -20,4 +20,5 @@ export async function Sincronizar() {
 }
 
 
+
 export default sequelize;
