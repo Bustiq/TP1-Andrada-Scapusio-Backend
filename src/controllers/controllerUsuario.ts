@@ -1,6 +1,4 @@
-import fs from 'fs';
-import ModeloLibro from '../models/ModeloLibro';
-import { forEachChild } from 'typescript';
+
 import ModeloUsuario from '../models/ModeloUsuario';
 import { createHash } from 'crypto';
 import jwt, { JwtPayload } from 'jsonwebtoken'
@@ -9,7 +7,9 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 
 export  class controllerUsuario{
     
-    static secretKey = "Ensaladardamal"
+
+    static secretKey = "Medieburger"
+
 
     static hashSHA256(data: string): string {
 
@@ -23,47 +23,63 @@ export  class controllerUsuario{
     }
 
 
-    static async crearUsuario(body : any){
+    static async crearUsuario(_nombre : string, _password : string){
         
-        body.password = controllerUsuario.hashSHA256(body.password)
+        _password = controllerUsuario.hashSHA256(_password)
         const usuario = await ModeloUsuario.create(
-            body
+            {
+                nombre : _nombre,
+                password : _password
+            }
         );
-
-        
-        return usuario;
     }
 
-    static async signUp(body : any){
+    static async signUp(_nombre : string, _password : string){
 
         const usuarioAnt = await ModeloUsuario.findOne(
-            {where : {nombre :body.nombre}}
+            {where : {nombre :_nombre}}
         );
 
+
+
         if (!usuarioAnt){
-            const usuario =  controllerUsuario.crearUsuario(body);
+            console.log("creando usuario")
+            const usuario =  controllerUsuario.crearUsuario(_nombre, _password);
+        }
+        else{
+            throw new Error("El usuario ya existe")
         }
     }
 
-    static async login(body : any){
+    static async login(nombreUsuario : string, password : string){
 
         const usuario = await ModeloUsuario.findOne(
-            {where : {nombre : body.nombre}}
+            {where : {nombre : nombreUsuario}}
         )
+
         if (usuario){
-            if (controllerUsuario.hashSHA256(body.password) == usuario.password){
+            if (controllerUsuario.hashSHA256(password) == usuario.password){
                 
 
                 const payload = {
-                    "nombre" : usuario.nombre
+                    "nombre" : usuario.nombre,
+                    "password" : password
                 }
                 
                 console.log(payload)
+                
+                console.log(controllerUsuario.generarJWT(payload))
                 return controllerUsuario.generarJWT(payload)
 
+            }else
+            {
+                throw new Error("Contraseña incorrecta")
             }
         }
-        return null
+        else{
+            throw new Error("Usuario no encontrado")
+        }
+
     }
 
 
@@ -91,6 +107,13 @@ export  class controllerUsuario{
     
     }
 
+
+
+
+    static async GetUsuarios()
+    {
+        return await ModeloUsuario.findAll()
+    }
 
 
 }
