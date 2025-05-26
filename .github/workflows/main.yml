@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.TOKEN }}
 
       - name: Build the Docker image
-        run: docker build -t ghcr.io/${{ github.repository_owner }}/TP1-Andrada-Scapusio-Backend/:latest .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/TP1-Andrada-Scapusio-Backend/ .
 
       - name: Push the Docker image
-        run: docker push ghcr.io/${{ github.repository_owner }}/TP1-Andrada-Scapusio-Backend/:latest
+        run: docker push ghcr.io/${{ github.repository_owner }}/TP1-Andrada-Scapusio-Backend/
