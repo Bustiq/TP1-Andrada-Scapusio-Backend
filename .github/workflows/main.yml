@@ -20,8 +20,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN }}
 
-      - name: Medie
+      - name: Build docker image
         run: docker build -t ghcr.io/${{ github.repository_owner }}/TP1-Andrada-Scapusio-Backend/ .
 
-      - name: Basura
+      - name: Push docker image
         run: docker push ghcr.io/${{ github.repository_owner }}/TP1-Andrada-Scapusio-Backend/
